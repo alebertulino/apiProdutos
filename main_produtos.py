@@ -9,11 +9,11 @@ basic_auth = auth
 
 #Criando as Rotas API para a Tabela Cursos
 @app.route('/produtos', methods = ['POST'])
-@basic_auth.required
+@basic_auth.required 
 def add_produtos_cursos():
 	try:
 		_json = request.get_json(force = True)
-		_id = _json['idCurso']
+		_idCurso = _json['idCurso']
 		_nome = _json['nome']
 		_descricao = _json['descricao']
 		_carga = _json['carga']
@@ -23,7 +23,7 @@ def add_produtos_cursos():
 		_ativo = _json['ativo']	
 		if _nome and _descricao and _carga and _totalaulas and _ano and _preco and _ativo and request.method == 'POST':			
 			sqlQuery = "INSERT INTO produtos.cursos(idCurso, nome, descricao, carga, total_aulas, ano, preco, ativo) VALUES(%s, %s, %s, %s, %s, %s, %s, %s)"
-			bindData = (_id, _nome, _descricao, _carga, _totalaulas, _ano, _preco, _ativo)
+			bindData = (_idCurso, _nome, _descricao, _carga, _totalaulas, _ano, _preco, _ativo)
 			with closing(mysql.connect()) as conn:
 				with closing(conn.cursor()) as cursor:
 					conn = mysql.connect()
@@ -81,7 +81,7 @@ def produtos_pesquisar_id(idCurso):
 def update_produtos():
 	try:
 		_json = request.get_json(force = True)
-		_id = _json['idCurso']
+		_idCurso = _json['idCurso']
 		_nome = _json['nome']
 		_descricao = _json['descricao']
 		_carga = _json['carga']
@@ -91,7 +91,7 @@ def update_produtos():
 		_ativo = _json['ativo']	
 		if _nome and _descricao and _carga and _totalaulas and _ano and _preco and _ativo and request.method == 'PUT':
 			sqlQuery = "UPDATE produtos.cursos SET nome=%s, descricao=%s, carga=%s, total_aulas=%s, ano=%s, preco=%s, ativo=%s WHERE idCurso=%s"
-			bindData = (_nome, _descricao, _carga, _totalaulas, _ano, _preco, _ativo, _id)
+			bindData = (_nome, _descricao, _carga, _totalaulas, _ano, _preco, _ativo, _idCurso)
 			conn = mysql.connect()
 			cursor = conn.cursor()
 			cursor.execute(sqlQuery, bindData)
